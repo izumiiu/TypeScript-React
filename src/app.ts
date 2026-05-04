@@ -1,73 +1,8 @@
 
-interface UserInfo {
-    name:string;
-    age:number;
-
-    displayInfo(name:string,age:number):string;
-}
-
-class User1 implements UserInfo{
-
-    name: string;
-    age: number;
-
-    constructor(name:string,age:number){
-        this.name = name;
-        this.age = age;
-    }
-    
-    displayInfo():string {
-        return `Your name is ${this.name} your age is ${this.age}`;
-    }
-
-}
-
-const peopleInfo1:UserInfo = {
-    name:"Tjay",
-    age:18,
-    displayInfo(name:string,age:number):string{
-        return `Your name is ${name} and your age is ${age}`;
-    }
-
-}
-
-
-
-const user1 = new User1("Tjay", 18);
-const user2 = new User1("Poom", 19);
-console.log(user1.displayInfo());
-console.log(user2.displayInfo());
-
-console.log(peopleInfo1.displayInfo("boss", 19));
-
-// Type Union-----------------------------------------------------
-// type dog = string | number;
-// let theDog:dog = "scopydoo";
-// let theCat:dog = 12;
-
-// Literal Types----------------------------------------------------
-let role : "Admin" | "Manager" | "Member" | 18;
-role = "Manager" ;
-role = 18;
-
-// Literal Types + Type Aliases
-type Status = "pending" | "approved" | "rejedted";
-type Theme = "light" | "dark";
-
-let myStatus:Status = "approved";
-let myTheme:Theme;
-myTheme = "dark";
-myTheme = "light";
-
-type HTTPMethod = "GET" | "POST" | "PUT" | "DELETE";
-type Port = 3000 | 5000 | 8080;
-let myMethod:HTTPMethod = "GET";
-let myPort:Port = 3000;
-
 // Type Guards----------------------------------------------------------------------------
 
 function convert(value: string | number){
-    
+
     if(typeof value === "string"){
         //แปลงตัวอักษรเป็นตัวพิมใหญ่
         console.log(value.toUpperCase());
@@ -77,3 +12,36 @@ function convert(value: string | number){
         console.log(value.toFixed(2));
     }
 }
+convert("Tjay");
+convert(29);
+
+// Generic---------------------------------------------------------------------------------------
+// แบบไม่ใช้ Generic | ถ้าต้องการสร้าง function ที่ทำงานกับ Array ที่มีการกำหนดประเภทข้อมูลต่างกัน จะต้องสร้างหลาย function(เขียนโค้ดซ้ำซ้อนหลายจุด)
+
+function getItemString(arr: string[]){
+    return arr[0];
+}
+function getItemNumber(arr: number[]){
+    return arr[0];
+}
+function getItemBoolean(arr: boolean[]){
+    return arr[0];
+}
+// เรียกใช้งาน 
+getItemString(["hello", "world"]);
+getItemNumber([1, 2, 3]);
+getItemBoolean([true, false]);
+
+console.log(getItemString(["hello", "world"]));
+
+// แบบใช้ Generic ---------------------------------------------------------------------
+// ระบุว่าเป็น Generic โดยไห้ T เป็น ตัวแทนของชนิดข้อมูลที่เราสนใจ
+function getItem<T>(arr: T[]){
+    return arr[0];
+}
+// เรียกใช้งาน
+const word = getItem<string>(["hello", "world"]);
+getItem<number>([1, 2, 3]);
+getItem<boolean>([true, false]);
+
+console.log(word);
